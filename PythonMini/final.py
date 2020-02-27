@@ -91,7 +91,7 @@ class CheckingAccount(Account):
         return f'Checking Account #{self.acct_number}\nBalance: {Account.__str__(self)}'
     
     
-class SavingsAcount(Account):
+class SavingsAccount(Account):
     def __init__(self, acct_number, balance):
         super().__init__(acct_number, balance)
         
@@ -109,3 +109,53 @@ class Customer:
     def __init__(self, name, PIN):
         self.name = name
         self.PIN = PIN
+        self.accts = {'C':[],'S':[],'B':[]}
+        
+    def __str__(self):
+        return self.name
+    
+    def open_checking(self,acct_number, balance):
+        self.accts['C'].append(CheckingAccount(acct_number, balance))
+        
+    def open_savings(self,acct_number, balance):
+        self.accts['S'].append(SavingsAccount(acct_number, balance))
+        
+    def open_business(self,acct_number, balance):
+        self.accts['B'].append(BusinessAccount(acct_number, balance))
+        
+    def balance_total(self):
+        total = 0
+        for acct in self.accts['C']:
+            print(acct)
+            total += acct.balance
+        for acct in self.accts['S']:
+            print(acct)
+            total += acct.balance
+        for acct in self.accts['B']:
+            print(acct)
+            total += acct.balance
+        print(f'Balance Total: ${total:.2f}')
+
+def make_deposit(cust,acct_type,acct_num,dep_amount):
+    for acct in cust.accts[acct_type]:
+        if acct.acct_number == acct_num:
+            acct.deposit(dep_amount)
+    
+def make_withdrawal(cust,acct_type,acct_num,wd_amount):
+    for acct in cust.accts[acct_type]:
+        if acct.acct_number == acct_num:
+            acct.withdraw(wd_amount)
+
+if __name__ == '__main__':
+    sessionOn = True
+
+# def login():
+#     sessionOn = True
+#     customerOn = False
+    
+    while sessionOn is True:
+        print('Welcome to your banking ATM')
+        customer_ID = input('Please enter your customer ID number: ')
+        break
+        # cust_accts = []
+        # for acct in  
